@@ -148,8 +148,8 @@
                                 batch.push(["crm.company.update", {
                                     id: companies[row.MEMBER_ID].data()[0].ID,
                                     fields: {
-                                        UF_CRM_CLIENT_NAME: row.CLIENT_NAME,
-                                        UF_CRM_58919CA32F1B1: row.CLIENT_NAME,
+                                        UF_CRM_CLIENT_NAME: row.CLIENT_NAME || "",
+                                        UF_CRM_58919CA32F1B1: row.CLIENT_NAME || "",
                                     },
                                     params: {REGISTER_SONET_EVENT: "N"}
                                 }]);
@@ -160,8 +160,8 @@
                                     fields: {
                                         TITLE: row.CLIENT_NAME || row.MEMBER_ID,
                                         CURRENCY_ID: row.CURRENCY.replace("RUR", "RUB"),
-                                        UF_CRM_58919CA32F1B1: row.CLIENT_NAME,
-                                        UF_CRM_CLIENT_NAME: row.CLIENT_NAME,
+                                        UF_CRM_58919CA32F1B1: row.CLIENT_NAME || "",
+                                        UF_CRM_CLIENT_NAME: row.CLIENT_NAME || "",
                                         UF_CRM_MEMBER_ID: row.MEMBER_ID,
                                     },
                                     params: {REGISTER_SONET_EVENT: "N"}
@@ -259,8 +259,8 @@
                                 batch.push(["crm.company.update", {
                                     id: companies[row.MEMBER_ID].data()[0].ID,
                                     fields: {
-                                        UF_CRM_CLIENT_NAME: row.CLIENT_NAME,
-                                        UF_CRM_58919CA32F1B1: row.CLIENT_NAME,
+                                        UF_CRM_CLIENT_NAME: row.CLIENT_NAME || "",
+                                        UF_CRM_58919CA32F1B1: row.CLIENT_NAME || "",
                                         UF_CRM_SUBSCRIPTION_START: row.SUBSCRIPTION_START,
                                         UF_CRM_SUBSCRIPTION_END: row.SUBSCRIPTION_END,
                                     },
@@ -273,8 +273,8 @@
                                     fields: {
                                         TITLE: row.CLIENT_NAME || row.MEMBER_ID,
                                         CURRENCY_ID: row.CURRENCY.replace("RUR", "RUB"),
-                                        UF_CRM_CLIENT_NAME: row.CLIENT_NAME,
-                                        UF_CRM_58919CA32F1B1: row.CLIENT_NAME,
+                                        UF_CRM_CLIENT_NAME: row.CLIENT_NAME || "",
+                                        UF_CRM_58919CA32F1B1: row.CLIENT_NAME || "",
                                         UF_CRM_MEMBER_ID: row.MEMBER_ID,
                                         UF_CRM_SUBSCRIPTION_START: row.SUBSCRIPTION_START,
                                         UF_CRM_SUBSCRIPTION_END: row.SUBSCRIPTION_END,
