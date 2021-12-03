@@ -252,7 +252,7 @@
                             progressbar_premium_payouts.setAttribute("aria-valuenow", "" + count);
                             progressbar_premium_payouts.style.width = "" + parseInt("" + (count * 100 / data.length)) + "%";
                             progressbar_premium_payouts.innerText = "" + parseInt("" + (count * 100 / data.length)) + "%";
-                            let company_id = companies[row.MEMBER_ID].data()[0].ID;
+                            let company_id = "0";
                             if (companies[row.MEMBER_ID].total() === 1) {
                                 batch.push(["crm.company.update", {
                                     id: companies[row.MEMBER_ID].data()[0].ID,
