@@ -345,7 +345,7 @@
 
     function refreshToken() {
         setTimeout(_ => {
-            BX24.refreshAuth(resolve);
+            BX24.refreshAuth();
             refreshToken();
         }, 1000 * 60 * 50);
     }
