@@ -334,7 +334,15 @@
         setTimeout(_ => {
             BX24.fitWindow();
         }, 500);
+        refreshToken();
     });
+
+    function refreshToken() {
+        setTimeout(_ => {
+            BX24.refreshAuth(resolve);
+            refreshToken();
+        }, 1000 * 60 * 50);
+    }
 </script>
 </body>
 </html>
