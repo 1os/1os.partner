@@ -118,7 +118,7 @@
                     let reader = new FileReader();
                     reader.onload = async function (e) {
                         let workbook = XLSX.read(e.target.result, {
-                            cellDates: true
+                            raw: true,
                         });
                         let first_sheet_name = workbook.SheetNames[0];
                         let worksheet = workbook.Sheets[first_sheet_name];
@@ -144,11 +144,12 @@
                             progressbar_payouts.style.width = "" + parseInt("" + (count * 100 / data.length)) + "%";
                             progressbar_payouts.innerText = "" + parseInt("" + (count * 100 / data.length)) + "%";
                             let company_id = "0";
-                            if (companies[row.MEMBER_ID].total() === 1) {
+                            if (companies[row.MEMBER_ID].total() > 0) {
                                 batch.push(["crm.company.update", {
                                     id: companies[row.MEMBER_ID].data()[0].ID,
                                     fields: {
                                         UF_CRM_CLIENT_NAME: row.CLIENT_NAME,
+                                        UF_CRM_58919CA32F1B1: row.CLIENT_NAME,
                                     },
                                     params: {REGISTER_SONET_EVENT: "N"}
                                 }]);
@@ -159,6 +160,7 @@
                                     fields: {
                                         TITLE: row.CLIENT_NAME || row.MEMBER_ID,
                                         CURRENCY_ID: row.CURRENCY.replace("RUR", "RUB"),
+                                        UF_CRM_58919CA32F1B1: row.CLIENT_NAME,
                                         UF_CRM_CLIENT_NAME: row.CLIENT_NAME,
                                         UF_CRM_MEMBER_ID: row.MEMBER_ID,
                                     },
@@ -171,7 +173,7 @@
                                     TITLE: row.APP_CODE || row.APP_COE,
                                     COMPANY_ID: company_id,
                                     CURRENCY_ID: row.CURRENCY.replace("RUR", "RUB"),
-                                    OPPORTUNITY: (row.AMOUNT/100),
+                                    OPPORTUNITY: row.AMOUNT.replace(/\s/gi, "").replace(/,/gi, "."),
                                     BEGINDATE: row.DATE_OF_USE,
                                     CLOSEDATE: row.DATE_OF_USE,
                                     UF_CRM_DATE_OF_USE: row.DATE_OF_USE,
@@ -182,8 +184,8 @@
                                     UF_CRM_APP_TYPE_POINTS: row.APP_TYPE_POINTS,
                                     UF_CRM_POINTS: row.POINTS,
                                     UF_CRM_ALL_POINTS: row.ALL_POINTS,
-                                    UF_CRM_AMOUNT: (row.AMOUNT/100) + "|" + row.CURRENCY.replace("RUR", "RUB"),
-                                    UF_CRM_ALL_AMOUNT: (row.ALL_AMOUNT/100) + "|" + row.CURRENCY.replace("RUR", "RUB"),
+                                    UF_CRM_AMOUNT: row.AMOUNT.replace(/\s/gi, "").replace(/,/gi, ".") + "|" + row.CURRENCY.replace("RUR", "RUB"),
+                                    UF_CRM_ALL_AMOUNT: row.ALL_AMOUNT.replace(/\s/gi, "").replace(/,/gi, ".") + "|" + row.CURRENCY.replace("RUR", "RUB"),
                                     UF_CRM_CURRENCY: row.CURRENCY,
                                 },
                                 params: {REGISTER_SONET_EVENT: "N"}
@@ -227,7 +229,7 @@
                     let reader1 = new FileReader();
                     reader1.onload = async function (e) {
                         let workbook = XLSX.read(e.target.result, {
-                            cellDates: true
+                            raw: true,
                         });
                         let first_sheet_name = workbook.SheetNames[0];
                         let worksheet = workbook.Sheets[first_sheet_name];
@@ -253,11 +255,14 @@
                             progressbar_premium_payouts.style.width = "" + parseInt("" + (count * 100 / data.length)) + "%";
                             progressbar_premium_payouts.innerText = "" + parseInt("" + (count * 100 / data.length)) + "%";
                             let company_id = "0";
-                            if (companies[row.MEMBER_ID].total() === 1) {
+                            if (companies[row.MEMBER_ID].total() > 0) {
                                 batch.push(["crm.company.update", {
                                     id: companies[row.MEMBER_ID].data()[0].ID,
                                     fields: {
                                         UF_CRM_CLIENT_NAME: row.CLIENT_NAME,
+                                        UF_CRM_58919CA32F1B1: row.CLIENT_NAME,
+                                        UF_CRM_SUBSCRIPTION_START: row.SUBSCRIPTION_START,
+                                        UF_CRM_SUBSCRIPTION_END: row.SUBSCRIPTION_END,
                                     },
                                     params: {REGISTER_SONET_EVENT: "N"}
                                 }]);
@@ -269,7 +274,10 @@
                                         TITLE: row.CLIENT_NAME || row.MEMBER_ID,
                                         CURRENCY_ID: row.CURRENCY.replace("RUR", "RUB"),
                                         UF_CRM_CLIENT_NAME: row.CLIENT_NAME,
+                                        UF_CRM_58919CA32F1B1: row.CLIENT_NAME,
                                         UF_CRM_MEMBER_ID: row.MEMBER_ID,
+                                        UF_CRM_SUBSCRIPTION_START: row.SUBSCRIPTION_START,
+                                        UF_CRM_SUBSCRIPTION_END: row.SUBSCRIPTION_END,
                                     },
                                     params: {REGISTER_SONET_EVENT: "N"}
                                 }]);
@@ -280,7 +288,7 @@
                                     TITLE: row.APP_CODE,
                                     COMPANY_ID: company_id,
                                     CURRENCY_ID: row.CURRENCY.replace("RUR", "RUB"),
-                                    OPPORTUNITY: (row.AMOUNT/100),
+                                    OPPORTUNITY: row.AMOUNT.replace(/\s/gi, "").replace(/,/gi, "."),
                                     BEGINDATE: row.SUBSCRIPTION_START,
                                     CLOSEDATE: row.SUBSCRIPTION_END,
                                     UF_CRM_PREMIUM_TYPE: config[1].data()[0].LIST.filter(item => item.VALUE === row.TYPE).map(item => item.ID)[0],
@@ -288,11 +296,9 @@
                                     UF_CRM_APP_REMOVED: row.APP_REMOVED,
                                     UF_CRM_POINTS: row.POINTS,
                                     UF_CRM_ALL_POINTS: row.ALL_POINTS,
-                                    UF_CRM_AMOUNT: (row.AMOUNT/100) + "|" + row.CURRENCY.replace("RUR", "RUB"),
-                                    UF_CRM_ALL_AMOUNT: (row.ALL_AMOUNT/100) + "|" + row.CURRENCY.replace("RUR", "RUB"),
+                                    UF_CRM_AMOUNT: row.AMOUNT.replace(/\s/gi, "").replace(/,/gi, ".") + "|" + row.CURRENCY.replace("RUR", "RUB"),
+                                    UF_CRM_ALL_AMOUNT: row.ALL_AMOUNT.replace(/\s/gi, "").replace(/,/gi, ".") + "|" + row.CURRENCY.replace("RUR", "RUB"),
                                     UF_CRM_CURRENCY: row.CURRENCY,
-                                    UF_CRM_SUBSCRIPTION_START: row.SUBSCRIPTION_START,
-                                    UF_CRM_SUBSCRIPTION_END: row.SUBSCRIPTION_END,
                                 },
                                 params: {REGISTER_SONET_EVENT: "N"}
                             }]);
